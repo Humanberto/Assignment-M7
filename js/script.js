@@ -8,7 +8,7 @@ let list = document.getElementById('employees');
 // SET A COUNT VARIABLE TO DISPLAY NEXT TO EMPLOYEES HEADER
 let count = list.rows.length -1;
 function updateEmployeeCount() {
-    count.textContent = `Employees: ${count-1}`;
+    count.textContent = `(${count-1})`;
 }
 console.log(count)
 // ADD EMPLOYEE
@@ -40,12 +40,21 @@ form.addEventListener('submit', (e) => {
     let deleteCell = newRow.insertCell(5);
     let deleteBtn = document.createElement('button');
     deleteBtn.className = 'btn btn-danger btn-sm float-end delete';
+    // button is displaying with white background for some reason
     deleteBtn.textContent = 'Delete';
     deleteBtn.onclick = function() {
-        newRow.remove();
-        count--;
-        updateEmployeeCount();
+        let confirDelete = confirm('Delete this employee?');
+        if (confirDelete) {
+
+            let row = e.target.parentNode.parentNode;
+            let rowIndex = row.rowIndex;
+            document.getElementById('employees').deleteRow(rowIndex);
+            count--;
+            updateEmployeeCount();
+        }
+        
     };
+
     deleteCell.appendChild(deleteBtn);
 
     // ADD LI TO UL
@@ -71,7 +80,7 @@ form.addEventListener('submit', (e) => {
 
 // Function to update the displayed count of employees
 function updateEmployeeCount() {
-    document.getElementById('employeeCount').textContent = `Employees: ${count}`;
+    document.getElementById('empCount').textContent = `(${count})`;
 }
 
 
